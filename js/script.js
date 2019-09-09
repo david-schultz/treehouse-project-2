@@ -47,7 +47,7 @@ const showPage = (list, page) => {
       const isHidden = (list[i].style.display === "none");
       if (!isOnPage(i) && !isHidden) {       //if this student is not on the page, and isnt hidden
             list[i].style.display = "none";
-      } else if(isOnPage(i) && isHidden) {   //if the student is on the page, and iscurrently hidden
+      } else if(isOnPage(i) && isHidden) {   //if the student is on the page, and is currently hidden
          list[i].style.display = "inline";
       }
    }
@@ -62,8 +62,8 @@ const showPage = (list, page) => {
    functionality to the pagination buttons.
 ***/
 
-const appendPageLinks = () => {
-
+const appendPageLinks = (list) => {
+   
 
 }
 

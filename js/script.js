@@ -63,8 +63,27 @@ const showPage = (list, page) => {
 ***/
 
 const appendPageLinks = (list) => {
+   //add pagination buttons
+      //onClick -> showPage
+      //          -> highlight page lnk
+   const paginationDiv = document.createElement("div");
+   paginationDiv.className = "pagination";
    
-
+   const paginationUL = document.createElement("ul");
+   for(i = 0; i < (list.length / itemsPerPage); i++) {
+      const paginationLI = document.createElement("li");
+      const linkElement = document.createElement("a");
+      linkElement.href = "#";
+      linkElement.text = (i + 1);
+      linkElement.addEventListener("click", function() {
+         const linkLIs = paginationUL.children;
+         for(j = 0; j < linkLIs.length; j++) {
+            
+         }
+      });
+      paginationLI.appendChild(linkElement);
+   }
+   paginationUL.children[0].className = "active";
 }
 
 

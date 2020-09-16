@@ -64,7 +64,7 @@ const showPage = (list, page) => {
 const appendPageLinks = (list) => {
   const paginationDiv = document.createElement("div");
   paginationDiv.className = "pagination";
-  const ul = document.createELement("ul");
+  const ul = document.createElement("ul");
   paginationDiv.appendChild(ul);
   const pageCount = Math.ceil(list.length / itemsPerPage);
   for (let i = 1; i <= pageCount; i++) {
@@ -76,9 +76,7 @@ const appendPageLinks = (list) => {
       if (e.target.tagName === "A") {
         console.log("you have clicked: " + e.target.textContent);
         for (let i = 0; i < pageCount; i++) {
-          const paginationUL = paginationDiv.children[0];
-
-          ul.children[i].className = "";
+          ul.children[i].children[0].className = "";
         }
         e.target.className = "active";
         showPage(list, e.target.textContent);
@@ -102,5 +100,51 @@ const createLI = (page) => {
 };
 
 appendPageLinks(studentList);
+
+
+/***
+   Create the `appendPageLinks function` to generate, append, and add
+   functionality to the pagination buttons.
+***/
+
+
+
+const appendSearchBar = () => {
+  const pageHeader = document.getElementsByClassName("page-header")[0];
+  const searchDiv = document.createElement("div");
+  const input = document.createElement("input");
+  const button = document.createElement("button");
+  searchDiv.appendChild(input);
+  searchDiv.appendChild(button);
+
+  searchDiv.className = "student-search";
+  input.setAttribute("placeholder", "Search for students...");
+  button.textContent = "Search";
+
+  button.addEventListener("click", () => {
+    const inputtedText = input.value;
+  });
+
+  pageHeader.appendChild(searchDiv);
+};
+
+const getFilteredList = (list, inputtedText) => {
+  const filteredList = [];
+
+  for (let i = 0; i < list.length; i++) {
+    const student = list.children[i];
+    const studentName = student.children[1].textContent.toLowerCase();
+    if (studentName.includes(inputtedText.toLowerCase())) {
+      filteredList.push(student);
+    }
+  }
+
+  return filteredList;
+};
+
+appendSearchBar();
+
+
+
 
 // Remember to delete the comments that came with this file, and replace them with your own code comments.

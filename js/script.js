@@ -123,24 +123,38 @@ const appendSearchBar = () => {
 
   button.addEventListener("click", () => {
     const inputtedText = input.value;
+    toggleFilter(inputtedText);
   });
 
   pageHeader.appendChild(searchDiv);
 };
 
-const getFilteredList = (list, inputtedText) => {
+
+const getFilteredList = (list, name) => {
   const filteredList = [];
 
   for (let i = 0; i < list.length; i++) {
     const student = list.children[i];
     const studentName = student.children[1].textContent.toLowerCase();
-    if (studentName.includes(inputtedText.toLowerCase())) {
+    if (studentName.includes(name.toLowerCase())) {
       filteredList.push(student);
     }
   }
 
   return filteredList;
 };
+
+const toggleFilter = (list, name) => {
+
+};
+
+
+
+
+
+
+
+
 
 appendSearchBar();
 

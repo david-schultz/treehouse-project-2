@@ -5,21 +5,20 @@ FSJS project 2 - List Filter and Pagination
 
 // Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
 
-
 /***
-   Add your global variables that store the DOM elements you will
-   need to reference and/or manipulate.
-
-   But be mindful of which variables should be global and which
-   should be locally scoped to one of the two main functions you're
-   going to create. A good general rule of thumb is if the variable
-   will only be used inside of a function, then it can be locally
-   scoped to that function.
+  Global Variables
 ***/
 const studentList = document.getElementsByClassName("student-list")[0].getElementsByClassName("student-item");
 const itemsPerPage = 10;
 
+/***
+  Page set-up
+***/
 
+// creates an h3 element which says "No results found."
+// and appends it to the end of the page.
+//
+// initializes the h3 element w/ display: none
 const appendNoResults = () => {
   const h3 = document.createElement("h3");
   h3.textContent = "No results found.";
@@ -28,29 +27,15 @@ const appendNoResults = () => {
 
   const docElement = document.getElementsByClassName("page")[0];
   docElement.appendChild(h3);
-
 }
 
-
-appendNoResults();
-
 /***
-   Create the `showPage` function to hide all of the items in the
-   list except for the ten you want to show.
-
-   Pro Tips:
-     - Keep in mind that with a list of 54 students, the last page
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when
-       you initially define the function, and it acts as a variable
-       or a placeholder to represent the actual function `argument`
-       that will be passed into the parens later when you call or
-       "invoke" the function
+  Showing & Clearing the page
 ***/
 
-  //list: represents the list of Students
-  //page: represents the current page number
+// given a list of students and a page number, changes the
+// display property of a set of students to "block", while
+// changing the rest of the students' display property to "none".
 const showPage = (list, page) => {
   clearPage();
   const endIndex = page * itemsPerPage;
@@ -72,6 +57,7 @@ const showPage = (list, page) => {
   }
 };
 
+// changes the display property of every student in the global list to "none"
 const clearPage = () => {
   for(let i = 0; i < studentList.length; i++) {
     const listItem = studentList[i];
@@ -79,16 +65,15 @@ const clearPage = () => {
   }
 };
 
-//showPage(studentList, 1);
-
 /***
-   Create the `appendPageLinks function` to generate, append, and add
-   functionality to the pagination buttons.
+  Pagination
 ***/
 
-
-
-
+// given a list of students, determines how many pages are needed
+// to display all students, and appends pagination links needed for each page.
+//
+// the appended pagination div will handle click events and call showPage()
+// based on the clicked link.
 const appendPageLinks = (list) => {
   const paginationDiv = document.createElement("div");
   paginationDiv.className = "pagination";
@@ -115,6 +100,8 @@ const appendPageLinks = (list) => {
   docElement.appendChild(paginationDiv);
 };
 
+// given a page number, creates a pagination link with the textContent
+// equaling the page number.
 const createLI = (page) => {
   const li = document.createElement("li");
   const a = document.createElement("a");
@@ -127,20 +114,28 @@ const createLI = (page) => {
   return li;
 };
 
+// removes the pagination div from the document.
 const removePageLinks = () => {
   const docElement = document.getElementsByClassName("page")[0];
   const paginationDiv = docElement.getElementsByClassName("pagination")[0];
   docElement.removeChild(paginationDiv);
 };
 
-appendPageLinks(studentList);
 /***
-   Create the `appendPageLinks function` to generate, append, and add
-   functionality to the pagination buttons.
+  Search Bar
 ***/
 
-
-
+// creates a search bar div, with an input and button element, and append it
+// to the document.
+//
+// the button has a listener for the click event, upon which it takes the
+// input's value and filters the student by that value.
+//
+// if the resulting filtered list requires multiple pages to display,
+// it replaces the page's pagination links with new ones, to meet the new list'
+// requirements.
+//
+// if the resulting filtered list is empty, the page will display "No results found."
 const appendSearchBar = () => {
   const pageHeader = document.getElementsByClassName("page-header")[0];
   const searchDiv = document.createElement("div");
@@ -162,10 +157,14 @@ const appendSearchBar = () => {
   pageHeader.appendChild(searchDiv);
 };
 
+/***
+  Search Bar Filtering
+***/
 
+// takes a list of students and a name, and returns a list of students,
+// filtered by the given name.
 const getFilteredList = (list, name) => {
   const filteredList = [];
-
 
   for (let i = 0; i < list.length; i++) {
     const student = list[i];
@@ -174,11 +173,15 @@ const getFilteredList = (list, name) => {
       filteredList.push(student);
     }
   }
-
-console.log(filteredList);
   return filteredList;
 };
 
+
+// given a list of students and a name, displays a filtered list of students
+// by the given name.
+//
+// if there are already pagination links on the document, it removes and replaces
+// them with new links, to meet the filtered list of students' page requirements.
 const toggleFilter = (list, name) => {
   console.log("filtering by " + name);
   removePageLinks();
@@ -188,16 +191,9 @@ const toggleFilter = (list, name) => {
 
 };
 
-
-
-
-
-
-
-
+/***
+  Running Functions
+***/
+appendNoResults();
+appendPageLinks(studentList);
 appendSearchBar();
-
-
-
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.

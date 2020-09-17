@@ -99,6 +99,12 @@ const createLI = (page) => {
   return li;
 };
 
+const removePageLinks = () => {
+  const docElement = document.getElementsByClassName("page")[0];
+  const paginationDiv = docElement.getElementsByClassName("pagination")[0];
+  docElement.removeChild(paginationDiv);
+};
+
 appendPageLinks(studentList);
 
 
@@ -123,7 +129,7 @@ const appendSearchBar = () => {
 
   button.addEventListener("click", () => {
     const inputtedText = input.value;
-    toggleFilter(inputtedText);
+    toggleFilter(studentList, inputtedText);
   });
 
   pageHeader.appendChild(searchDiv);
@@ -133,9 +139,10 @@ const appendSearchBar = () => {
 const getFilteredList = (list, name) => {
   const filteredList = [];
 
+
   for (let i = 0; i < list.length; i++) {
-    const student = list.children[i];
-    const studentName = student.children[1].textContent.toLowerCase();
+    const student = list[i];
+    const studentName = student.children[0].children[1].textContent.toLowerCase();
     if (studentName.includes(name.toLowerCase())) {
       filteredList.push(student);
     }
@@ -145,9 +152,12 @@ const getFilteredList = (list, name) => {
 };
 
 const toggleFilter = (list, name) => {
+  removePageLinks();
+  const filteredList = getFilteredList(list, name);
+  showPage(filteredList, 1);
+  appendPageLinks(filteredList);
 
 };
-
 
 
 

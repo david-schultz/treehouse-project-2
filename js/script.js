@@ -20,6 +20,19 @@ const studentList = document.getElementsByClassName("student-list")[0].getElemen
 const itemsPerPage = 10;
 
 
+const appendNoResults = () => {
+  const h3 = document.createElement("h3");
+  h3.textContent = "No results found.";
+  h3.className = "no-results-text";
+  h3.style.display = "none";
+
+  const docElement = document.getElementsByClassName("page")[0];
+  docElement.appendChild(h3);
+
+}
+
+
+appendNoResults();
 
 /***
    Create the `showPage` function to hide all of the items in the
@@ -39,15 +52,30 @@ const itemsPerPage = 10;
   //list: represents the list of Students
   //page: represents the current page number
 const showPage = (list, page) => {
-  let endIndex = page * itemsPerPage;
-  let startIndex = endIndex - itemsPerPage;
+  clearPage();
+  const endIndex = page * itemsPerPage;
+  const startIndex = endIndex - itemsPerPage;
+  const docElement = document.getElementsByClassName("page")[0];
+  const noResultsText = docElement.getElementsByClassName("no-results-text")[0];
+  noResultsText.style.display = "none";
 
-  for(let i = 0; i < list.length; i++) {
-    let listItem = list[i];
-    listItem.style.display = "none";
-    if(i >= startIndex && i < endIndex) {
+  if (list.length === 0) {
+    noResultsText.style.display = "block";
+    return;
+  }
+
+  let i = startIndex;
+  while (i < endIndex && i < list.length) {
+      const listItem = list[i];
       listItem.style.display = "block";
-    }
+      i++;
+  }
+};
+
+const clearPage = () => {
+  for(let i = 0; i < studentList.length; i++) {
+    const listItem = studentList[i];
+    listItem.style.display = "none";
   }
 };
 
@@ -106,8 +134,6 @@ const removePageLinks = () => {
 };
 
 appendPageLinks(studentList);
-
-
 /***
    Create the `appendPageLinks function` to generate, append, and add
    functionality to the pagination buttons.
@@ -129,6 +155,7 @@ const appendSearchBar = () => {
 
   button.addEventListener("click", () => {
     const inputtedText = input.value;
+    console.log("button clicked. filtering for \"" + input.value + "\"");
     toggleFilter(studentList, inputtedText);
   });
 
@@ -148,10 +175,12 @@ const getFilteredList = (list, name) => {
     }
   }
 
+console.log(filteredList);
   return filteredList;
 };
 
 const toggleFilter = (list, name) => {
+  console.log("filtering by " + name);
   removePageLinks();
   const filteredList = getFilteredList(list, name);
   showPage(filteredList, 1);
